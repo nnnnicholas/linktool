@@ -23,9 +23,11 @@ async def get_title(session, url):
     page_content = await fetch(session, url)
     if page_content is not None:
         soup = BeautifulSoup(page_content, 'html.parser')
-        return soup.title.string if soup.title else url
+        title = soup.title.string.replace('\n', '') if soup.title else url
+        return title
     else:
         return url
+
 
 async def create_href_list(filename):
     async with aiofiles.open(filename, mode='r') as f:
